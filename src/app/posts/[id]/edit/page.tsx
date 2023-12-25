@@ -8,6 +8,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       id: Number(params.id),
     },
   });
+
   return (
     <div className="p-5">
       <Link href={`/posts/${params.id}`} className="mb-5 block">
