@@ -1,7 +1,26 @@
 import prisma from "@/lib/prisma/script";
 import { Metadata } from "next";
 import Link from "next/link";
-import { ImageResponse } from "next/og";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const post = await prisma.post.findUnique({
+    where: {
+      id: Number(params.id),
+    },
+  });
+  const baseUrl = "https://nextjs-satori.vercel.app";
+  return {
+    title: post?.title,
+    description: post?.content,
+    openGraph: {
+      images: `${baseUrl}/posts/og?title=${post?.title}`,
+    },
+  };
+}
 
 export default async function Page({ params }: { params: { id: string } }) {
   const post = await prisma.post.findUnique({
@@ -9,19 +28,6 @@ export default async function Page({ params }: { params: { id: string } }) {
       id: Number(params.id),
     },
   });
-
-  const image = new ImageResponse(<p>{post?.title}</p>, {
-    width: 1200,
-    height: 630,
-  });
-
-  const metadata: Metadata = {
-    title: post?.title,
-    description: post?.content,
-    openGraph: {
-      images: image,
-    },
-  };
 
   return (
     <div className="p-5">

@@ -1,8 +1,12 @@
 import { ImageResponse } from "next/og";
+import { type NextRequest } from "next/server";
 
 export const runtime = "edge";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const title = searchParams.get("title");
+
   return new ImageResponse(
     (
       <div
@@ -17,7 +21,7 @@ export async function GET() {
           justifyContent: "center",
         }}
       >
-        OGP
+        {title}
       </div>
     ),
     {
