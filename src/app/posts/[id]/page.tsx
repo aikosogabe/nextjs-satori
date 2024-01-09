@@ -1,4 +1,4 @@
-import { getPost } from "@/lib/post/getPost";
+import { getPostById } from "@/lib/data";
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -7,7 +7,7 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }): Promise<Metadata> {
-  const post = await getPost(params.id);
+  const post = await getPostById(params.id);
   const baseUrl = "https://nextjs-satori.vercel.app";
   return {
     title: post?.title,
@@ -19,7 +19,7 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const post = await getPost(params.id);
+  const post = await getPostById(params.id);
 
   return (
     <div className="p-5">

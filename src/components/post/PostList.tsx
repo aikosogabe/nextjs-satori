@@ -1,4 +1,4 @@
-import { getPosts } from "@/lib/post/getPosts";
+import { getPosts } from "@/lib/data";
 import Link from "next/link";
 
 export async function PostList() {

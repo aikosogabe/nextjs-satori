@@ -10,3 +10,17 @@ export async function getPosts() {
     console.error(error);
   }
 }
+
+export async function getPostById(id: string) {
+  noStore();
+  try {
+    const post = await prisma.post.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+    return post;
+  } catch (error) {
+    console.error(error);
+  }
+}

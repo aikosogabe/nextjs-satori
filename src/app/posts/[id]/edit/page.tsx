@@ -1,9 +1,9 @@
 import { PostForm } from "@/components/post/PostForm";
-import { getPost } from "@/lib/post/getPost";
+import { getPostById } from "@/lib/data";
 import Link from "next/link";
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const post = await getPost(params.id);
+  const post = await getPostById(params.id);
 
   return (
     <div className="p-5">

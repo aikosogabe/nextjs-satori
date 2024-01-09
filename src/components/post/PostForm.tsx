@@ -3,6 +3,7 @@
 import { Post } from "@/type/post";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { createPost, updatePost } from "@/lib/actions";
 
 type Props = {
   id?: number;
@@ -17,20 +18,11 @@ export function PostForm({ id, defaultValues }: Props) {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const path = update ? `/api/post/${id}` : "/api/post";
-    await fetch(path, {
-      method: update ? "PUT" : "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: id, title, content }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          router.push(update ? `/posts/${id}` : "/");
-        }
-      })
-      .catch(console.error);
+    if (update && id) {
+      updatePost({ id, title, content });
+    } else {
+      createPost({ title, content });
+    }
   }
 
   return (
