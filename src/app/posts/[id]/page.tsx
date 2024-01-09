@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma/script";
+import { getPost } from "@/lib/post/getPost";
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -7,11 +7,7 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }): Promise<Metadata> {
-  const post = await prisma.post.findUnique({
-    where: {
-      id: Number(params.id),
-    },
-  });
+  const post = await getPost(params.id);
   const baseUrl = "https://nextjs-satori.vercel.app";
   return {
     title: post?.title,
@@ -23,11 +19,7 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const post = await prisma.post.findUnique({
-    where: {
-      id: Number(params.id),
-    },
-  });
+  const post = await getPost(params.id);
 
   return (
     <div className="p-5">

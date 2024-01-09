@@ -1,13 +1,9 @@
 import { PostForm } from "@/components/post/PostForm";
-import prisma from "@/lib/prisma/script";
+import { getPost } from "@/lib/post/getPost";
 import Link from "next/link";
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const post = await prisma.post.findUnique({
-    where: {
-      id: Number(params.id),
-    },
-  });
+  const post = await getPost(params.id);
 
   return (
     <div className="p-5">
